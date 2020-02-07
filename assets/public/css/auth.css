@@ -1,0 +1,42 @@
+.auth-form-div {
+    border: 4px solid var(--theme-color);
+    margin: 1% auto;
+    width: 40%;
+}
+
+.auth-forms {
+    margin: 20px 10px 20px 10px;
+}
+
+.auth-tabs {
+    display: flex;
+    margin: 0;
+    width: 100%;
+    height: 50px;
+    color: var(--theme-color);
+    font-weight: bolder;
+    text-align: center;
+    line-height: 45px;
+}
+
+.auth-tabs .tab {
+    cursor: pointer;
+    border: 2px solid var(--theme-color);
+    border-bottom: 4px solid var(--theme-color);
+}
+
+.auth-tabs .tab:hover {
+    text-decoration: underline;
+    color: #ed7a32;
+    letter-spacing: 2px;
+    background: lightgrey;
+    transition: all 0.2s ease-in-out;
+}
+
+.active-auth-tab {
+    text-decoration: underline;
+    color: #ed7a32;
+    letter-spacing: 2px;
+    background: lightgrey;
+    transition: all 0.2s ease-in-out;
+}
