@@ -1,4 +1,4 @@
-<form onsubmit="login_submit()">
+<form method="post" id="login-form">
     
     <div class="form-group">
         <label for="login_email">Email address</label>

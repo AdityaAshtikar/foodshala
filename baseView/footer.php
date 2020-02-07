@@ -1,19 +1,40 @@
-    <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
+<?php
 
-    <script src="../assets/public/js/jquery341.min.js"></script>
+    if ( isset($absPath) && $absPath ) {
+        $bs4JqueryPath = "assets/public/js/jquery341.min.js";
+        $customJsPath = "assets/public/js/";
+        $bs4popper = "assets/public/js/popper.min.js";
+        $bs4MinJs = "assets/public/js/bs4.min.js";
+        $jqueryValidator = "assets/public/js/jsValidate.min.js";
+
+    } else {
+        $bs4JqueryPath = "../assets/public/js/jquery341.min.js";
+        $customJsPath = "../assets/public/js/";
+        $bs4popper = "../assets/public/js/popper.min.js";
+        $bs4MinJs = "../assets/public/js/bs4.min.js";
+        $jqueryValidator = "../assets/public/js/jsValidate.min.js";
+
+    }
+
+?>
+
+    
+    <script src="<?php echo $bs4JqueryPath ?>"></script>
 
     <!-- custom js file, one per module -->
     <?php if (isset($js))
-        echo '<script src=../assets/public/js/' . $js . '>';
+        // echo '<script src=../assets/public/js/' . $js . '>';
+        echo '<script src=' . $customJsPath . $js . '>';
     ?>
 
-    <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script> -->
+    
+    <script src="<?php echo $bs4popper; ?>"></script>
 
-    <script src="../assets/public/js/popper.min.js"></script>
+    
+    <script src="<?php echo $bs4MinJs; ?>"></script>
 
-    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script> -->
-
-    <script src="../assets/public/js/bs4.min.js"></script>
+    
+    <script src="<?php echo $jqueryValidator; ?>"></script>
     
 </body>
 </html>

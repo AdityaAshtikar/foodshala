@@ -1,3 +1,6 @@
+const centeredLoader = document.querySelector('#centered-loader .spinner-border.spinner-border-lg');
+// console.log(centeredLoader);
+
 function titleCase(str) {
     var splitStr = str.toLowerCase().split(' ');
     for (var i = 0; i < splitStr.length; i++) {

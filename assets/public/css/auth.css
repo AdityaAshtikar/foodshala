@@ -40,3 +40,12 @@
     background: lightgrey;
     transition: all 0.2s ease-in-out;
 }
+
+/* jquery validator errors */
+.error {
+    color: red;
+}
+
+.blurForm {
+    filter: opacity(0.3);
+}

@@ -11,7 +11,7 @@
 			$this->errors = array();
 		}
 
-		public function validate($name, $em, $phone, $pw1, $pw2) {
+		public function validate($name, $em, $phone, $pw1, $pw2, $is_customer, $food_preferences) {
 			$this->checkName($name);
 			$this->checkEmail($em);
 			$this->checkPhone($phone);
@@ -19,29 +19,39 @@
 
 			if (empty($this->errors)) {
 				// insert user
-				return $this->insertUser($name, $em, $phone, $pw1);
+				return $this->insertUser($name, $em, $phone, $pw1, $is_customer, $food_preferences);
 			} else {
 				return false;
 			}
 		}
 
 		// inserts and sends email
-		private function insertUser($name, $em, $phone, $pw1) {
+		private function insertUser($name, $em, $phone, $pw1, $is_customer, $food_preferences) {
 			// $pw = password_hash($pw1, PASSWORD_BCRYPT);
 			$pw = md5($pw1);
-			$profilePic = "assets/images/profilePic/default.png";-
+			// $profilePic = "assets/images/profilePic/default.png";
+			$created = date(Globals::getCurrentTimeStamp());
 
-			$created = date($CURRENT_TIMESTAMP_FORMAT);
-			
-			$isfaculty = 1;
-			
-			$insert = mysqli_query($this->con, "INSERT INTO users () VALUES ('$name', '$em', '$phone', '$pw', '$profilePic', '$created')");
-				
-			if ($insert) {
-				return true;
-			} else {
-				return false;
+			try {
+				$pdoInsertQuery = "INSERT INTO user (is_customer, full_name, email, phone, pw, created) VALUES ('$is_customer', '$name', '$em', '$phone', '$pw', '$created')";
+				$this->con->exec($pdoInsertQuery);
+
+				// inserting food preferences
+				// [preference] => Array ( [0] => 1 [1] => 2 )
+				if ( $food_preferences != null) {
+					$user_id = $this->con->lastInsertId();
+					foreach ($food_preferences as $pref) {
+						$foodSql = "INSERT INTO user_food_preference (user, food_preference) VALUES ('$user_id', '$pref')";
+						$this->con->exec($foodSql);
+					}
+				}
+				$insert = true;
+			} catch (PDOException $e) {
+				echo $pdoInsertQuery . "<br>" . $e->getMessage();
+				$insert = false;
 			}
+			
+			return $insert;
 		}
 
 		// to be used in form - server side errors
@@ -55,8 +65,13 @@
 
 		private function checkName($string) {
 			// length
-			if (strlen($string) <=2 || strlen($string) >= 60) {
+			if (strlen($string) <2 || strlen($string) >= 50) {
 				array_push($this->errors, Constants::$nmLength);
+				return;
+			}
+			
+			if (!preg_match('/[A-Za-z]/', $string)) {
+				array_push($this->errors, Constants::$onlyLettersAllowed);
 				return;
 			}
 		}
@@ -89,12 +104,12 @@
 				return;
 			}
 
-			// already exists
-			$result = mysqli_query($this->con, "SELECT email FROM users WHERE email='$string'");
-			if (mysqli_num_rows($result) >0) {
-				array_push($this->errors, Constants::$emExists);
-				return;
-			}
+			// TODO: MAIL ALREADY EXISTS VALIDATION
+			// $result = mysqli_query($this->con, "SELECT email FROM user WHERE email='$string'");
+			// if (mysqli_num_rows($result) >0) {
+			// 	array_push($this->errors, Constants::$emExists);
+			// 	return;
+			// }
 		}
 
 		private function checkPhone($string) {
@@ -125,7 +140,7 @@
 			}
 
 			// checking if length is atleast 8
-			if (strlen($pw1)<8) {
+			if (strlen($pw1)<5) {
 				array_push($this->errors, Constants::$pw8chars);
 				return;
 			}

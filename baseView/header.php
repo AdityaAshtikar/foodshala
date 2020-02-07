@@ -1,4 +1,28 @@
-<?php include("../conn.php"); ?>
+<?php 
+    if ( isset($absPath) && $absPath ) {
+        include("conn.php");
+        include('urls.php');
+        include('keys.php');
+
+        $bs4csspath = "assets/public/css/bs4.min.css";
+        $publicCssPath = "assets/public/css/";
+        $helperJsPath = "assets/public/js/helper.js";
+        $navbarPath = "baseView/navbar.php";
+        $brandLogoPath = "assets/public/brand-logo.jpg";
+
+    } else {
+        // for auth
+        include("../conn.php");
+        include('../urls.php');
+        include('../keys.php');
+
+        $bs4csspath = "../assets/public/css/bs4.min.css";
+        $publicCssPath = "../assets/public/css/";
+        $helperJsPath = "../assets/public/js/helper.js";
+        $navbarPath = "navbar.php";
+        $brandLogoPath = "../assets/public/brand-logo.jpg";
+    }
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -9,18 +33,22 @@
     
     <title><?php if(isset($title)) echo $title . " | " ?>FoodShala</title>
 
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
-
-    <link rel="stylesheet" href="../assets/public/css/bs4.min.css">
-
-    <script src="../assets/public/js/helper.js"></script>
+    <!-- <link rel="stylesheet" href="../assets/public/css/bs4.min.css"> -->
+    <link rel="stylesheet" href="<?php echo $bs4csspath; ?>">
 
     <?php if(isset($css)) ?>
-        <link rel="stylesheet" href="../assets/public/css/<?php echo $css; ?>"> 
+        <!-- <link rel="stylesheet" href="../assets/public/css/<?php echo $css; ?>">  -->
+        <link rel="stylesheet" href="<?php echo $publicCssPath . $css; ?>"> 
     <?php ?>
 
 </head>
 <body>
+
+    <!-- urls -->
+
+    <div class="d-none">
+        <input type="hidden" id="url_register" value="<?php echo $register_user_path ?>">
+    </div>
 
     <style>
         :root {
@@ -36,8 +64,10 @@
             top: 32%;
             border: 0.8em solid currentColor;
             border-right-color: transparent;
+            z-index: 2;
 
-            background: url("../assets/public/brand-logo.jpg");
+            /* background: url("../assets/public/brand-logo.jpg"); */
+            background: url("<?php echo $brandLogoPath; ?>");
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
@@ -57,12 +87,12 @@
         }
 
         .side-login-nav-div {
-            margin-left: 85%;
+            margin-left: 80%;
         }
 
     </style>
-
-    <?php include("navbar.php"); ?>
+    
+    <?php include($navbarPath); ?>
 
     <div id="centered-loader">
         <div class="d-flex justify-content-center">
@@ -73,3 +103,6 @@
             </div>
         </div>
     </div>
+
+    
+    <script src="<?php echo $helperJsPath; ?>"></script>
