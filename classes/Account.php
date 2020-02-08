@@ -105,11 +105,12 @@
 			}
 
 			// TODO: MAIL ALREADY EXISTS VALIDATION
+			$num_rows = $this->con->query("SELECT id FROM user WHERE email='$string'")->fetchColumn();
 			// $result = mysqli_query($this->con, "SELECT email FROM user WHERE email='$string'");
-			// if (mysqli_num_rows($result) >0) {
-			// 	array_push($this->errors, Constants::$emExists);
-			// 	return;
-			// }
+			if ($num_rows > 0) {
+				array_push($this->errors, Constants::$emExists);
+				return;
+			}
 		}
 
 		private function checkPhone($string) {
