@@ -9,7 +9,7 @@
     // tab=login&type=user
     if (isset ($_GET['tab'])) {
         $tab = $_GET['tab'];
-        $type = $_GET['type'];
+        // $type = $_GET['type'];
     }
 
     include("../classes/Account.php");
@@ -36,7 +36,6 @@
 
 <div class="d-none">
     <input type="text" id="auth_tab" value=<?php echo $tab; ?>>
-    <input type="text" id="auth_type" value=<?php echo $type; ?>>
 </div>
 
 <div class="h-100 row align-items-center auth-form-div">

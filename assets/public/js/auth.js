@@ -55,6 +55,15 @@ $( document ).ready(function() {
         login_auth_tab.addClass(activeAuthTab);
         makeAuthFormActive(login_auth_form, reg_auth_form);
     });
+    
+    // partner register link toogle
+    // $("#partner-register-link").click( function() {
+    //     let inputElem = $("input[name='regSubmit']");
+    //     inputElem.before(`<input type='hidden' name='is_partner' value='1'>`);
+    //     $('.preference-div').hide();
+    //     $(this).attr('id', 'customer-register-link')
+    //     $(this).children('small').text('Customer Register Link');
+    // });
 
     // handle form submits
     register_form.validate({
@@ -85,27 +94,16 @@ $( document ).ready(function() {
         },
         submitHandler: (form, event) => {
             event.preventDefault();
-            let url = $('#url_register').val();
-            // form.action = url;
-            // form.submit();
-            let formData = $(form).serializeArray();
-
-            $.ajax({
-                url: url,
-                type: "post",
-                data: formData,
-                beforeSend: () => {
-                    register_form.addClass('blurForm');
-                    $(centeredLoader).removeClass('d-none');
-                },
-                success: (response) => {
-                    console.log("success: ", response);
-                },
-                done: (data) => {
-                    console.log("done: ", data);
-                    $(centeredLoader).addClass('d-none');
-                }
-            });
+            // let url = $('#url_register').val();
+            let url = window.location.href;
+            
+            register_form.addClass('blurForm');
+            $(centeredLoader).removeClass('d-none');
+            url = url.replace("?tab=login", "?tab=sign");
+            form.action = url;
+            form.submit();
+            register_form.removeClass('blurForm');
+            $(centeredLoader).addClass('d-none');
         }
     })
 });

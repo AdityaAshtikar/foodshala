@@ -36,10 +36,11 @@
             <?php 
             // echo $_SESSION[Globals::$SESSION_EMAIL];
               if (isset($_SESSION[Globals::$SESSION_EMAIL])) {
-                $customer = $_SESSION[Globals::$SESSION_IS_CUSTOMER] == 1 ? "Customer" : "Partner";
+                $is_customer = $_SESSION[Globals::$SESSION_IS_CUSTOMER];
+                $customer = $is_customer == 1 ? "Customer" : "Partner";
                 $email = $_SESSION[Globals::$SESSION_EMAIL];
-                $name = $conn->query("SELECT full_name FROM user WHERE email='$email' LIMIT 1")->fetch();
-                echo '<span class="mr-sm-2 nav-link">' . $customer . " - " . $name['full_name'] . '</span>';
+                $logged_user = $conn->query("SELECT * FROM user WHERE email='$email' AND is_customer='$is_customer' LIMIT 1")->fetch();
+                echo '<span class="mr-sm-2 nav-link">' . $customer . " - " . $logged_user['full_name'] . '</span><br><a class="mr-sm-2 nav-link" href="logout.php">Logout</a>';
               }
               else 
                 echo '<a class="mr-sm-2 nav-link" href="../registration/register.php?tab=login&type=user">Login</a>';

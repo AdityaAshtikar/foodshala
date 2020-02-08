@@ -1,3 +1,11 @@
+<?php
+    if (isset($_GET['type']) && $_GET['type'] == 'partner') {
+        $is_partner = true;
+    } else {
+        $is_partner = false;
+    }
+?>
+
 <form method="post" id="register-form">
 
     <div class="form-group">
@@ -58,29 +66,61 @@
         <input required name="pw1" type="password" class="form-control" id="pw1" placeholder="Confirm Password">
     </div>
 
-    <p>Preferences</p>
-    <div class="form-group form-check">
+    <div class="preference-div <?php if ($is_partner) echo " d-none"; ?>">
+        <p>Preferences</p>
+        <div class="form-group form-check">
 
-        <?php
-            $pref = $conn->query("SELECT * FROM food_preference ORDER BY id")->fetchAll();
-            foreach ($pref as $row) {
-        ?>
-                <input name='preference[]' value="<?php echo $row['id'] ?>" type="checkbox" class="form-check-input" id="<?php echo $row['name'] ?>">
-                <label class="form-check-label" for="<?php echo $row['name']; ?>"><?php echo ucwords($row['name']); ?>.</label>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <?php
-            }
-        ?>
-        <!-- <input name='preference[]' value="non-veg" type="checkbox" class="form-check-input" id="non-veg">
-        <label class="form-check-label" for="non-veg">Non-Veg.</label> -->
+            <?php
+                $pref = $conn->query("SELECT * FROM food_preference ORDER BY id")->fetchAll();
+                foreach ($pref as $row) {
+            ?>
+                    <input name='preference[]' value="<?php echo $row['id'] ?>" type="checkbox" class="form-check-input" id="<?php echo $row['name'] ?>">
+                    <label class="form-check-label" for="<?php echo $row['name']; ?>"><?php echo ucwords($row['name']); ?>.</label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <?php
+                }
+            ?>
 
-        <small class="form-text text-muted">You can change these later.</small>
+            <small class="form-text text-muted">You can change these later.</small>
+        </div>
     </div>
 
-    <input type="submit" name="submit" value="Register" class="btn btn-inline btn-primary">
+    <?php if ($is_partner) { ?>
+        <input type="hidden" name="is_partner" value="1">
+    <?php } ?>
+
+    <input type="submit" name="regSubmit" value="Register" class="btn btn-inline btn-primary">
+
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="#" id="partner-register-link">
+    <?php
+        $current_uri = $_SERVER['REQUEST_URI'];
+        if (strpos($current_uri, 'tab') != false) {
+            if ($is_partner) {
+                $url = str_replace('?tab=sign&type=partner', '?tab=sign&type=user', $current_uri);
+                $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . $url;
+            } else {
+                if ($_GET['tab'] == 'login') {
+                    $url = str_replace('?tab=login&type=user', '?tab=sign&type=partner', $current_uri);
+                    $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . $url;
+                } else {
+                    $url = str_replace('?tab=sign&type=user', '?tab=sign&type=partner', $current_uri);
+                    $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . $url;
+                }
+            }
+        } else {
+            if ($is_partner) {
+                $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . $current_uri . "?tab=sign&type=user";
+            } else {
+                $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . $current_uri . "?tab=sign&type=partner";
+            }
+        }
+    ?>
+    <a href=<?php echo $actual_link; ?> id="partner-register-link">
+    <?php if ($is_partner) { ?>
+            <small>User Register</small>
+    <?php } else { ?>
         <small>Partner/Restaurant Register</small>
+    <?php } ?>
     </a>
 
 </form>

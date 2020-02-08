@@ -10,7 +10,7 @@
 		return $string;
 	}
 
-	if (isset($_POST['submit'])) {
+	if (isset($_POST['regSubmit'])) {
 		$name = clean_name($_POST['name']);
 
         $is_customer = isset($_POST['is_partner']) ? 0 : 1;
@@ -25,15 +25,14 @@
 		if ($success) {
             $_SESSION['email'] = $email;
             $_SESSION['is_customer'] = $is_customer;
-            // echo "success: " . $food_preferences;
 			header("Location: ../index.php");
-		} // else {
+		} else {
 			?>
-			<div class="alert alert-success alert-dismissible" id="errorDiv">
+			<div class="alert alert-warning alert-dismissible" id="errorDiv">
 				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 				<strong>Could Not Register User, Try Again</strong>
 			</div>
 			<?php 
-		// }
+		}
 	}
 ?>

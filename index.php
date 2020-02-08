@@ -7,10 +7,11 @@
     if ( !isset($_SESSION[Globals::$SESSION_EMAIL]) ) {
         header("Location: registration/register.php?tab=login&type=user&error=invLogin");
     }
-
-    $user_email = $_SESSION[Globals::$SESSION_EMAIL];
-    $is_customer = $_SESSION[Globals::$SESSION_IS_CUSTOMER];
 ?>
+
+<h1>
+    <?php echo $logged_user['full_name']; ?>
+</h1>
 
 <?php
     // $js = 'auth.js';
