@@ -1,20 +1,22 @@
 <?php 
+	include("../conn.php");
 
-	if (isset($_POST['loginAdmin']) || isset($_POST['loginStudent'])) {
+	if (isset($_POST['loginSubmit'])) {
 		$string = strip_tags($_POST['login_email']);
 		$password = strip_tags($_POST['login_pw']);
 
-		$query = "SELECT * FROM users WHERE email='$string' AND pw='$password'";
+		$query = "SELECT * FROM user WHERE email='$string' AND pw='$password'";
 
 		$user = $conn->query($query)->fetch();
 		$num_rows = $conn->query($query)->fetchColumn();
 
-		if ($num_rows <= 0)
+		if ($num_rows <= 0) {
 			header("Location: register.php?tab=sign&type=user&error=You are Not Registered Yet");
+			die();
+		}
 
 		$pw = $user['pw'];
-		$userPw = md5($pw);
-		if ($userPw == $pw) {
+		if (md5($password) == $pw) {
 			$username = $user['full_name'];
 			$_SESSION[Globals::$SESSION_EMAIL] = $user['email'];
 			$_SESSION[Globals::$SESSION_IS_CUSTOMER] = $user['is_customer'];
@@ -26,12 +28,11 @@
 			// 	setcookie("cookieToken", $cookie_token, time() + 60*60*24*7);
 			// }
 				
-				header("Location: index.php");
-			} else {
-				header("Location: register.php?tab=sign&type=user&error=Invalid Login Creds");
-			}
-
+			header("Location: index.php");
+		} else {
+			header("Location: register.php?tab=login&type=user&error=Invalid Login Creds");
 		}
+
 	}
 
 

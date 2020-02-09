@@ -1,5 +1,5 @@
 <?php
-    $title = "Registration";
+    $title = "Authentication";
     $css = 'auth.css';
     include("../baseView/header.php");
     if (isset($_SESSION[Globals::$SESSION_EMAIL])) {
@@ -26,11 +26,10 @@
 
 <?php if (isset($_GET['error'])) {
     $error = $_GET['error'];
-    if ($error == 'invLogin') $errorMsg = "Login First";
 ?>
     <div class="alert alert-success alert-dismissible" id="errorDiv">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong><?php echo $errorMsg ?></strong>
+        <strong><?php echo $error ?></strong>
     </div>
 <?php } ?>
 

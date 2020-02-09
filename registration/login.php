@@ -1,4 +1,4 @@
-<form method="post" id="login-form">
+<form action="loginHandler.php" method="post" id="login-form">
     
     <div class="form-group">
         <label for="login_email">Email address</label>
@@ -10,6 +10,6 @@
         <input name="login_pw" type="password" class="form-control" id="login_pw" placeholder="Password">
     </div>
     
-    <button class="btn btn-block btn-primary">Login</button>
+    <input type="submit" name="loginSubmit" class="btn btn-block btn-primary" value="Login">
 
 </form>

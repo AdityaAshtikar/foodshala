@@ -18,7 +18,6 @@
 
 ?>
 
-    
     <script src="<?php echo $bs4JqueryPath ?>"></script>
 
     <!-- custom js file, one per module -->
@@ -26,14 +25,8 @@
         // echo '<script src=../assets/public/js/' . $js . '>';
         echo '<script src=' . $customJsPath . $js . '>';
     ?>
-
-    
     <script src="<?php echo $bs4popper; ?>"></script>
-
-    
     <script src="<?php echo $bs4MinJs; ?>"></script>
-
-    
     <script src="<?php echo $jqueryValidator; ?>"></script>
     
 </body>

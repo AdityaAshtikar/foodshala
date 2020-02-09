@@ -9,16 +9,16 @@
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <!-- <ul class="navbar-nav mr-auto"> -->
+    <ul class="navbar-nav mr-auto">
       <!-- <li class="nav-item active">
         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
+      </li> -->
 
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" href="#">For Partners</a>
-      </li>
+      </li> -->
 
-      <li class="nav-item dropdown">
+      <!-- <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Dropdown
         </a>
@@ -29,18 +29,32 @@
           <a class="dropdown-item" href="#">Something else here</a>
         </div>
       </li> -->
-    <!-- </ul> -->
-    <div class="d-flex my-2 my-lg-0 float-right side-login-nav-div">
+    </ul>
+    <div class="d-flex my-2 my-lg-0 side-login-nav-div">
         <!-- <ul class="navbar-nav mr-auto"> -->
             <!-- <li class="nav-item"> -->
             <?php 
             // echo $_SESSION[Globals::$SESSION_EMAIL];
               if (isset($_SESSION[Globals::$SESSION_EMAIL])) {
                 $is_customer = $_SESSION[Globals::$SESSION_IS_CUSTOMER];
-                $customer = $is_customer == 1 ? "Customer" : "Partner";
                 $email = $_SESSION[Globals::$SESSION_EMAIL];
                 $logged_user = $conn->query("SELECT * FROM user WHERE email='$email' AND is_customer='$is_customer' LIMIT 1")->fetch();
-                echo '<span class="mr-sm-2 nav-link">' . $customer . " - " . $logged_user['full_name'] . '</span><br><a class="mr-sm-2 nav-link" href="logout.php">Logout</a>';
+
+                // $customer = $is_customer == 1 ? "Customer" : "Partner";
+                
+                if ($is_customer != 1) {
+                  $add_menu_link = '
+                      <button type="button" class="btn btn-info addMenuButton" data-toggle="modal" data-target="#addMenuModal">
+                      Add Menu Item
+                      </button>
+                    ';
+                  $customer = "Partner";
+                  echo '<span class="mr-sm-2 nav-link">' . $add_menu_link  . '</span>';
+                } else {
+                  $customer = "Customer";
+                }
+                echo '<span class="mr-sm-2 nav-link">' . $customer . " - " . $logged_user['full_name'] . '</span>';
+                echo '<a class="mr-sm-2 nav-link" href="logout.php">Logout</a>';
               }
               else 
                 echo '<a class="mr-sm-2 nav-link" href="../registration/register.php?tab=login&type=user">Login</a>';

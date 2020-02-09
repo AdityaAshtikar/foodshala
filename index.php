@@ -1,21 +1,19 @@
 <?php
     $title = "Catch Up";
-    // $css = 'index.css';
+    $css = 'index.css';
     $absPath = true;
     include("baseView/header.php");
 
     if ( !isset($_SESSION[Globals::$SESSION_EMAIL]) ) {
-        header("Location: registration/register.php?tab=login&type=user&error=invLogin");
+        header("Location: registration/register.php?tab=login&type=user");
     }
+
+    include("logged/addMenuModal.php");
 ?>
 
-<h1>
-    <?php echo $logged_user['full_name']; ?>
-</h1>
+<!-- TODO: SHOW ALL MENU ITEMS -->
 
 <?php
-    // $js = 'auth.js';
+    $js = 'index.js';
     include("baseView/footer.php");
 ?>
-
-

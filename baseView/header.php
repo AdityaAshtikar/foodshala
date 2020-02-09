@@ -87,7 +87,13 @@
         }
 
         .side-login-nav-div {
-            margin-left: 80%;
+            align-items: baseline;
+        }
+
+        .btn.btn-info.addMenuButton {
+            border: 0;
+            background: rgba(244,197,85, 0.3);
+            color: var(--theme-color);
         }
 
     </style>
