@@ -8,10 +8,16 @@
         header("Location: registration/register.php?tab=login&type=user");
     }
 
-    include("logged/addMenuModal.php");
-?>
+    $session_email = $_SESSION["is_customer"];
 
-<!-- TODO: SHOW ALL MENU ITEMS -->
+    $session_email = $_SESSION["email"];
+    $partner_id = $conn->query("SELECT id FROM user WHERE email='$session_email' AND is_customer=0")->fetch()['id'];
+
+    include("logged/addMenuModal.php");
+    // <!-- TODO: SHOW ALL MENU ITEMS -->
+    include("logged/showAllMenu.php");
+    
+?>
 
 <?php
     $js = 'index.js';
