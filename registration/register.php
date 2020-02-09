@@ -22,6 +22,7 @@
 		}
 	}
     include("../ajax/register_user.php");
+    
 ?>
 
 <?php if (isset($_GET['error'])) {

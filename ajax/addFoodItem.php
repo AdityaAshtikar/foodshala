@@ -17,7 +17,7 @@
             $img = $_FILES['food_photo']['name'];
             $tmp = $_FILES['food_photo']['tmp_name'];
             $ext = strtolower(pathinfo($img, PATHINFO_EXTENSION));
-            $final_image = rand(1000,1000000);
+            $final_image = rand(1000,1000000) . "." . $ext;
 
             if (in_array($ext, $valid_extensions)) {
                 $path = $path . strtolower($final_image);

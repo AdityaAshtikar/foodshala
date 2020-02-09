@@ -1,5 +1,26 @@
+<?php
+  // current page url
+  if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
+    $url = "https://";   
+  else
+    $url = "http://";   
+  $url.= $_SERVER['HTTP_HOST'];
+  $url.= $_SERVER['REQUEST_URI'];
+
+  $fromIndex = true;
+  if(strpos($url, "index.php") > -1) {
+    $fromIndex = true;
+  } else {
+    $fromIndex = false;
+  }
+
+  if (isset($_SESSION['email'])) {
+    $logged = true;
+  }
+?>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="../index.php">
     <!-- <img id="brand-logo" src="../assets/public/brand-logo.jpg" width="30" height="30" class="d-inline-block align-top" alt=""> -->
     <img id="brand-logo" src="<?php echo $brandLogoPath; ?>" width="30" height="30" class="d-inline-block align-top" alt="">
         FoodShala
@@ -11,23 +32,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <!-- <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li> -->
-
-      <!-- <li class="nav-item">
-        <a class="nav-link" href="#">For Partners</a>
-      </li> -->
-
-      <!-- <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
+        <a class="nav-link" href="orders.php">Orders <span class="sr-only">(current)</span></a>
       </li> -->
     </ul>
     <div class="d-flex my-2 my-lg-0 side-login-nav-div">
@@ -49,15 +54,17 @@
                       </button>
                     ';
                   $customer = "Partner";
+                  // echo $fromIndex ? '<a class="mr-sm-2 nav-link" href="logout.php">Logout</a>' : '<a class="mr-sm-2 nav-link" href="../logout.php">Logout</a>';
+                  echo $fromIndex ? '<a class="nav-link" href="logged/orders.php">Orders <span class="sr-only">(current)</span></a>' : '<a class="nav-link" href="">Orders <span class="sr-only">(current)</span></a>';
                   echo '<span class="mr-sm-2 nav-link">' . $add_menu_link  . '</span>';
                 } else {
                   $customer = "Customer";
                 }
                 echo '<span class="mr-sm-2 nav-link">' . $customer . " - " . $logged_user['full_name'] . '</span>';
-                echo '<a class="mr-sm-2 nav-link" href="logout.php">Logout</a>';
+                echo $fromIndex ? '<a class="mr-sm-2 nav-link" href="logout.php">Logout</a>' : '<a class="mr-sm-2 nav-link" href="../logout.php">Logout</a>';
               }
               else 
-                echo '<a class="mr-sm-2 nav-link" href="../registration/register.php?tab=login&type=user">Login</a>';
+                echo '<a class="mr-sm-2 nav-link" href="registration/register.php?tab=login&type=user">Login</a>';
             ?>
             <!-- </li> -->
             <!-- <li class="nav-item"> -->
